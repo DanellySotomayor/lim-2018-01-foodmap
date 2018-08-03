@@ -1,4 +1,4 @@
 window.setTimeout(function() {
-    window.location.href = '../views/home.html';
+    window.location.href = 'home.html';
 }, 2000);
 
