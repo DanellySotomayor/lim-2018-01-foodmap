@@ -17,13 +17,13 @@ window.initMap = () => {
         let sendRequest = {
             location: locationUser,
             radius: 800,
-            types: ['restaurant']
+            types: ['restaurant', 'cafe']
         };
         //usando google Places para buscar restaurantes cercanos, se crearán marcadores para imprimir la info de cada local
         let service = new google.maps.places.PlacesService(map);
         service.nearbySearch(sendRequest, (results, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                for (var i = 0; i < results.length; i++) {
+                for (let i = 0; i < results.length; i++) {
                     createMarker(results[i]);
                 }
             }
@@ -53,7 +53,7 @@ const createMarker = (place) => {
     createCardRow(place);
     google.maps.event.addListener(marker, 'click', () => {
         infoWindow.setContent(place.name);
-        infoWindow.open(map, this);
+        infoWindow.open(map, marker);
     });
 }
 
@@ -65,7 +65,7 @@ const createCardRow = (place) => {
     cardRow.innerHTML += `
     <div class="col s6 m4 l3 card">
         <div class="card-image">
-          <img class="activator responsive-img" src="${photos[0].getUrl({ 'maxWidth': 150, 'maxHeight': 150 })}">
+          <img class="activator responsive-img" src="${photos[0].getUrl({ 'maxWidth': 200, 'maxHeight': 250 })}">
         </div>
         <div class="card-content">
           <span class="card-title">${place.name}</span>
@@ -73,7 +73,9 @@ const createCardRow = (place) => {
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">${place.name}<i class="material-icons right">close</i></span>
           <p>Rating: ${place.rating} puntos</p>
-          <div style="width: 100px; height: 100px;"id="map_canvas${place.id}"></div>
+          <p>Dirección: ${place.vicinity} </p>
+          <p>Dirección: ${place.locationUser} </p>
+          <div style="width: 100px; height: 100px;" id="map_canvas${place.id}"></div>
          </div>
       </div>
       `
